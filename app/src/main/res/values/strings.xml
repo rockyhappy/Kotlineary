@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Kotlineary</string>
+    <string name="app_name">Reciipiie</string>
+    <string name="welcomeTo">Welcome to</string>
+    <string name="Reciipiie">Reciipiie</string>
+    <string name="continueWithGoogle">Continue with google</string>
+    <string name="pleaseSignIn">Please sign in to continue</string>
 </resources>
