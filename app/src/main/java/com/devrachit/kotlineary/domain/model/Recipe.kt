@@ -1,8 +1,5 @@
 package com.devrachit.kotlineary.domain.model
 
-import com.devrachit.kotlineary.data.remote.dto.AnalyzedInstruction
-import com.devrachit.kotlineary.data.remote.dto.ExtendedIngredient
-
 data class Recipe(
     val aggregateLikes : Int,
     val cheap : Boolean,

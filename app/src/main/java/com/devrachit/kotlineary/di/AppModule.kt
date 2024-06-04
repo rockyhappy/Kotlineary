@@ -18,12 +18,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideString(): String {
-        return "Hello World"
-    }
-
-    @Provides
-    @Singleton
     fun providesSpoonacularApi(): spoonacularApi {
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
