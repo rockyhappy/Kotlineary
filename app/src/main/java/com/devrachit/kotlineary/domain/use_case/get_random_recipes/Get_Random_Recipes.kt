@@ -19,7 +19,12 @@ class Get_Random_Recipes @Inject constructor(
             val response = repository.getRandomRecipe(number, apiKey)
 
             println( response )
-            emit(Resource.Success(response))
+            if(response.recipes.isEmpty()){
+                emit(Resource.Error("No recipes found"))
+            }
+            else{
+                emit(Resource.Success(response))
+            }
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
         }

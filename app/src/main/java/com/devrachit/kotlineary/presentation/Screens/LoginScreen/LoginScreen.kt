@@ -28,10 +28,14 @@ import com.devrachit.kotlineary.presentation.Screens.LoginScreen.components.Cust
 import com.devrachit.kotlineary.presentation.Screens.LoginScreen.components.Heading
 import com.devrachit.kotlineary.presentation.Screens.LoginScreen.components.HeadingMain
 import com.devrachit.kotlineary.presentation.Screens.LoginScreen.components.HeadingSmall
+import com.devrachit.kotlineary.presentation.navigation.AppScreens
 
 @Composable
 fun LoginScreen(navController: NavController) {
     val viewModel :LoginScreenViewModel= hiltViewModel()
+    val onLoginClick :()->Unit = {
+        navController.navigate(AppScreens.HomeScreen.route)
+    }
     Scaffold (
         modifier=Modifier.fillMaxSize(),
     ){
@@ -47,7 +51,7 @@ fun LoginScreen(navController: NavController) {
             HeadingSmall(text = stringResource(id = R.string.pleaseSignIn), modifier = Modifier.padding(start = 20.dp))
             CustomButton(
                 text = stringResource(id = R.string.continueWithGoogle),
-                onClick = {},
+                onClick = {onLoginClick.invoke()},
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 50.dp, start = 20.dp, end = 20.dp)
