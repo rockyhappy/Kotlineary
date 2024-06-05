@@ -20,6 +20,6 @@ fun HeadingHomeSmall(text: String, modifier: Modifier = Modifier) {
         color = Color.Gray,
         fontFamily = Constants.CustomFontFamily,
         fontStyle = FontStyle.Normal,
-        modifier = modifier.background(Color.Transparent).padding(bottom = 140.dp),
+        modifier = modifier.background(Color.Transparent),
     )
 }
