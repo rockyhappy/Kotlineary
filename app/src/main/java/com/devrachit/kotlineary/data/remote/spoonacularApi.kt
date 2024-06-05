@@ -1,6 +1,7 @@
 package com.devrachit.kotlineary.data.remote
 
 import com.devrachit.kotlineary.common.Constants.API_KEY
+import com.devrachit.kotlineary.data.remote.dto.AllRecipeDto
 import com.devrachit.kotlineary.data.remote.dto.RecipeDto
 import com.devrachit.kotlineary.data.remote.dto.recipieModel
 import retrofit2.Call
@@ -13,6 +14,11 @@ interface spoonacularApi {
     @GET("recipes/random")
     suspend fun getRandomRecipe(
         @Query("number") number: Int,
-        @Query("apiKey") apiKey: String
+        @Query("apiKey") apiKey: String = API_KEY,
     ): recipieModel
+
+    @GET("/recipes/complexSearch")
+    suspend fun getAllRecipes(
+        @Query("apiKey") apiKey: String = API_KEY,
+    ): AllRecipeDto
 }

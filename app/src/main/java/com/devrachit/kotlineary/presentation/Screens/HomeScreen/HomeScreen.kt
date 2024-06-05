@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -32,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.devrachit.kotlineary.R
+import com.devrachit.kotlineary.common.Resource
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.HeadingHome
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.HeadingHomeSmall
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.LoadingDialog
@@ -48,10 +50,16 @@ fun HomeScreen(navController: NavController) {
     val searchQuery = viewModel.searchQuery.collectAsStateWithLifecycle().value
     val activity = LocalContext.current as? Activity
     val loading = viewModel.loading.collectAsStateWithLifecycle()
-    LaunchedEffect(key1=true) {
-            activity?.window?.let { window ->
-                WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
-            }
+//    val recipes = viewModel.recipes.collectAsStateWithLifecycle().value
+    val recipes = viewModel.sharedModel.recipes.collectAsStateWithLifecycle().value
+    val allRecipe = viewModel.allRecipeModel.recipes.collectAsStateWithLifecycle().value
+    LaunchedEffect(key1 = true) {
+        activity?.window?.let { window ->
+            WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars =
+                true
+        }
+        viewModel.getRecipe()
+        viewModel.getAllRecipes()
     }
 
     Scaffold(
@@ -61,7 +69,7 @@ fun HomeScreen(navController: NavController) {
         Log.d("HomeScreen", it.toString())
         LazyColumn(
             modifier = Modifier
-                .padding(top = 40.dp, start = 16.dp, end = 16.dp)
+                .padding(top = 40.dp, start = 16.dp, end = 16.dp, bottom = 30.dp)
                 .background(Color.White),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
@@ -73,29 +81,83 @@ fun HomeScreen(navController: NavController) {
                     onValueChange = { newValue -> viewModel.setSearchQuery(newValue) },
                     modifier = Modifier.padding(top = 20.dp)
                 )
-                SubHeading(text = stringResource(id =R.string.popularRecipes), modifier=Modifier.padding(top=20.dp))
+                SubHeading(
+                    text = stringResource(id = R.string.popularRecipes),
+                    modifier = Modifier.padding(top = 20.dp)
+                )
                 LazyRow(
-                    modifier = Modifier.padding(top = 11.dp).fillMaxWidth(),
+                    modifier = Modifier
+                        .padding(top = 11.dp)
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(20.dp)
                 )
                 {
-                    items(5) {
-                        RecipeCardPopular(subtitle = "Ready in 25 min", title = "Shahi Paneer", imageUrl = "https://picsum.photos/300/200", onClick = {})
+                    recipes?.let { resource ->
+                        when (resource) {
+                            is Resource.Success -> {
+                                items(resource.data?.recipes!!.size) {
+                                    RecipeCardPopular(
+                                        subtitle = "Ready in ${recipes.data!!.recipes[it].readyInMinutes} min",
+                                        title = recipes.data!!.recipes[it].title,
+                                        imageUrl = recipes.data!!.recipes[it].image,
+                                        onClick = {
+                                            // Handle click event
+                                        }
+                                    )
+                                }
+                            }
+                            is Resource.Error -> {
+                                item {
+                                    Text(text = "Error: ${resource.message}")
+                                }
+                            }
+                            is Resource.Loading -> {
+                                item {
+                                    CircularProgressIndicator()
+                                }
+                            }
+                        }
                     }
                 }
-                SubHeading(text = stringResource(id =R.string.seeAll), modifier=Modifier.padding(top=20.dp))
+
+                SubHeading(
+                    text = stringResource(id = R.string.seeAll),
+                    modifier = Modifier.padding(top = 20.dp)
+                )
             }
-            items(7)
-            {
-                RecipeCardMain(subtitle = "Ready in 25 min", title = "Shahi Paneer", imageUrl = "https://picsum.photos/300/300", onClick = {})
+            allRecipe?.let{resource->
+                when(resource) {
+                    is Resource.Success -> {
+                        items(resource.data!!.number) {
+                            RecipeCardMain(
+                                subtitle = "Ready in ${allRecipe.data!!.results[it]} min",
+                                title = allRecipe.data!!.results[it].title,
+                                imageUrl = allRecipe.data!!.results[it].image,
+                                onClick = {
+                                    // Handle click event
+                                }
+                            )
+                        }
+                    }
+
+                    is Resource.Error -> {
+                        item {
+                            Text(text = "Error: ${resource.message}")
+                        }
+                    }
+
+                    is Resource.Loading -> {
+                        item {
+                            CircularProgressIndicator()
+                        }
+                    }
+                }
             }
         }
     }
     if (loading.value) {
         LoadingDialog(isShowingDialog = true)
+    } else {
+        LoadingDialog(isShowingDialog = false)
     }
-    else{
-        LoadingDialog(isShowingDialog =false)
-    }
-
 }
