@@ -4,4 +4,6 @@
     <string name="Reciipiie">Reciipiie</string>
     <string name="continueWithGoogle">Continue with google</string>
     <string name="pleaseSignIn">Please sign in to continue</string>
+    <string name="homeHead">👋 Hey  User</string>
+    <string name="homeSubHead">Discover tasty and healthy receipt</string>
 </resources>

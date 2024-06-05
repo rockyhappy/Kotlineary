@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -36,51 +37,59 @@ import com.devrachit.kotlineary.ui.theme.primaryColor
 
 @ExperimentalMaterial3Api
 @Composable
-fun RecipeCardMain(subtitle:String,title:String , imageUrl:String , onClick:()->Unit) {
+fun RecipeCardMain(subtitle: String, title: String, imageUrl: String, onClick: () -> Unit) {
     var sizeImage by remember { mutableStateOf(IntSize.Zero) }
     val gradient = Brush.verticalGradient(
         colors = listOf(Color.Transparent, Color.Black),
-        startY = sizeImage.height.toFloat()/3,  // 1/3
+        startY = sizeImage.height.toFloat() / 3,  // 1/3
         endY = sizeImage.height.toFloat()
     )
     Box(
-        modifier= Modifier
+        modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp),
+            .height(140.dp),
         contentAlignment = Alignment.CenterStart
-    ){
+    ) {
         //Image
         //Title
         Card(
-            onClick = {onClick.invoke()},
+            onClick = { onClick.invoke() },
             modifier = Modifier.fillMaxSize(),
             shape = RoundedCornerShape(16.dp),
             elevation = CardDefaults.cardElevation(),
         ) {
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().background(Color.White),
                 contentAlignment = Alignment.CenterStart
             ) {
-                val painter= rememberAsyncImagePainter(model =imageUrl)
-                Image(painter = painter, contentDescription = null, modifier = Modifier.fillMaxHeight().width(200.dp))
+                val painter = rememberAsyncImagePainter(model = imageUrl)
+                Image(
+                    painter = painter,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(130.dp),
+                    contentScale = ContentScale.FillBounds,
+                    alignment = Alignment.Center
+                )
                 Text(
                     text = title,
                     color = Color.Black,
                     fontFamily = Constants.CustomFontFamily,
                     fontWeight = FontWeight.Bold,
-                    fontSize=16.sp,
+                    fontSize = 16.sp,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
-                    modifier = Modifier.padding(start=216.dp)
+                    modifier = Modifier.padding(start = 146.dp)
                 )
                 Text(
                     text = subtitle,
                     color = Color.Gray,
                     fontFamily = Constants.CustomFontFamily,
-                    fontSize=12.sp,
+                    fontSize = 12.sp,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
-                    modifier = Modifier.padding(start=216.dp, top=38.dp)
+                    modifier = Modifier.padding(start = 146.dp, top = 38.dp)
                 )
             }
 
@@ -94,5 +103,9 @@ fun RecipeCardMain(subtitle:String,title:String , imageUrl:String , onClick:()->
 @Preview
 @Composable
 fun RecipeCardMainPreview() {
-    RecipeCardMain(subtitle = "Ready in 25 min", title = "Shahi Paneer", imageUrl = "https://via.placeholder.com/200", onClick = {})
+    RecipeCardMain(
+        subtitle = "Ready in 25 min",
+        title = "Shahi Paneer",
+        imageUrl = "https://via.placeholder.com/200",
+        onClick = {})
 }

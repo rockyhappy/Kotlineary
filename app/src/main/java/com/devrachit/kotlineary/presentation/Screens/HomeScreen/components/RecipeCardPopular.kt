@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -62,9 +63,12 @@ fun RecipeCardPopular(subtitle:String,title:String , imageUrl:String , onClick:(
                 //Image
                 //Title
                 val painter= rememberAsyncImagePainter(model =imageUrl)
-                Image(painter = painter, contentDescription = null, modifier = Modifier.onGloballyPositioned {
-                    sizeImage = it.size
-                })
+                Image(painter = painter,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize().onGloballyPositioned { coordinates ->
+                        sizeImage = coordinates.size
+                    },
+                    contentScale = ContentScale.FillBounds, alignment = Alignment.Center)
                 Box(modifier = Modifier.matchParentSize().background(gradient))
                 Text(
                     text = title,

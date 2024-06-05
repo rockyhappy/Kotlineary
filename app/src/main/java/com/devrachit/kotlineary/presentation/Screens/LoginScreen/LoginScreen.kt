@@ -1,5 +1,6 @@
 package com.devrachit.kotlineary.presentation.Screens.LoginScreen
 
+import android.app.Activity
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,11 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.devrachit.kotlineary.R
@@ -35,6 +38,12 @@ fun LoginScreen(navController: NavController) {
     val viewModel :LoginScreenViewModel= hiltViewModel()
     val onLoginClick :()->Unit = {
         navController.navigate(AppScreens.HomeScreen.route)
+    }
+    val activity = LocalContext.current as? Activity
+    LaunchedEffect(key1=true) {
+        activity?.window?.let { window ->
+            WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
+        }
     }
     Scaffold (
         modifier=Modifier.fillMaxSize(),
