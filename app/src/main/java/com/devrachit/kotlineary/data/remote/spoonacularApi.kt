@@ -2,6 +2,7 @@ package com.devrachit.kotlineary.data.remote
 
 import com.devrachit.kotlineary.common.Constants.API_KEY
 import com.devrachit.kotlineary.data.remote.dto.AllRecipeDto
+import com.devrachit.kotlineary.data.remote.dto.ItemModelDto
 import com.devrachit.kotlineary.data.remote.dto.RecipeDto
 import com.devrachit.kotlineary.data.remote.dto.recipieModel
 import retrofit2.Call
@@ -21,4 +22,11 @@ interface spoonacularApi {
     suspend fun getAllRecipes(
         @Query("apiKey") apiKey: String = API_KEY,
     ): AllRecipeDto
+
+    @GET("/recipes/{id}/information")
+    suspend fun getRecipe(
+        @Path("id") id: Int,
+        @Query("apiKey") apiKey: String = API_KEY,
+    ): ItemModelDto
+
 }

@@ -1,6 +1,7 @@
 package com.devrachit.kotlineary.data.repository
 
 import com.devrachit.kotlineary.data.remote.dto.AllRecipeDto
+import com.devrachit.kotlineary.data.remote.dto.ItemModelDto
 import com.devrachit.kotlineary.data.remote.dto.RecipeDto
 import com.devrachit.kotlineary.data.remote.dto.recipieModel
 import com.devrachit.kotlineary.data.remote.spoonacularApi
@@ -18,5 +19,9 @@ class SpoonacularRepositoryImpl @Inject constructor(
     override suspend fun getAllRecipes(apiKey: String): AllRecipeDto
     {
         return api.getAllRecipes(apiKey)
+    }
+    override suspend fun getRecipe(id: Int, apiKey: String): ItemModelDto
+    {
+        return api.getRecipe(id, apiKey)
     }
 }

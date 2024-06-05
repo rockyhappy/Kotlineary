@@ -42,6 +42,7 @@ import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.Recip
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.SearchBar
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.SubHeading
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.updateStatusBarTheme
+import com.devrachit.kotlineary.presentation.navigation.AppScreens
 import kotlin.random.Random
 
 @ExperimentalMaterial3Api
@@ -51,9 +52,14 @@ fun HomeScreen(navController: NavController) {
     val searchQuery = viewModel.searchQuery.collectAsStateWithLifecycle().value
     val activity = LocalContext.current as? Activity
     val loading = viewModel.loading.collectAsStateWithLifecycle()
-//    val recipes = viewModel.recipes.collectAsStateWithLifecycle().value
     val recipes = viewModel.sharedModel.recipes.collectAsStateWithLifecycle().value
     val allRecipe = viewModel.allRecipeModel.recipes.collectAsStateWithLifecycle().value
+
+    val onItemClick : (id : Int) -> Unit = {id->
+        viewModel.allRecipeModel.setId(id)
+        navController.navigate(AppScreens.ItemDetailsScreen.route)
+    }
+
     LaunchedEffect(key1 = true) {
         activity?.window?.let { window ->
             WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars =
@@ -102,7 +108,7 @@ fun HomeScreen(navController: NavController) {
                                         title = recipes.data!!.recipes[it].title,
                                         imageUrl = recipes.data!!.recipes[it].image,
                                         onClick = {
-                                            // Handle click event
+                                            onItemClick(recipes.data!!.recipes[it].id)
                                         }
                                     )
                                 }
@@ -135,7 +141,7 @@ fun HomeScreen(navController: NavController) {
                                 title = allRecipe.data!!.results[it].title,
                                 imageUrl = allRecipe.data!!.results[it].image,
                                 onClick = {
-                                    // Handle click event
+                                    onItemClick(allRecipe.data!!.results[it].id)
                                 }
                             )
                         }

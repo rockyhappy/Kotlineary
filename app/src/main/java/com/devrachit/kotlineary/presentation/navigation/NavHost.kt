@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.HomeScreen
+import com.devrachit.kotlineary.presentation.Screens.ItemDetailsScreen.ItemDetailsScreen
 import com.devrachit.kotlineary.presentation.Screens.LoginScreen.LoginScreen
 
 @ExperimentalMaterial3Api
@@ -23,6 +24,10 @@ fun NavHost(navHostController: NavHostController) {
         composable(AppScreens.LoginScreen.route)
         {
             LoginScreen(navController = navHostController)
+        }
+        composable(AppScreens.ItemDetailsScreen.route)
+        {
+            ItemDetailsScreen(navController = navHostController)
         }
     }
 
