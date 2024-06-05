@@ -17,6 +17,8 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -25,8 +27,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,7 +47,16 @@ import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.Searc
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.SubHeading
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.updateStatusBarTheme
 import com.devrachit.kotlineary.presentation.navigation.AppScreens
+import com.devrachit.kotlineary.ui.theme.DarkGreyColor
+import com.devrachit.kotlineary.ui.theme.primaryColor
 import kotlin.random.Random
+
+data class BottomNavigationItem(
+    val title: String,
+    val selectedIcon: ImageVector,
+    val unselectedIcon: ImageVector,
+    val route: String
+)
 
 @ExperimentalMaterial3Api
 @Composable
@@ -55,10 +68,24 @@ fun HomeScreen(navController: NavController) {
     val recipes = viewModel.sharedModel.recipes.collectAsStateWithLifecycle().value
     val allRecipe = viewModel.allRecipeModel.recipes.collectAsStateWithLifecycle().value
 
-    val onItemClick : (id : Int) -> Unit = {id->
+    val onItemClick: (id: Int) -> Unit = { id ->
         viewModel.allRecipeModel.setId(id)
         navController.navigate(AppScreens.ItemDetailsScreen.route)
     }
+    val items = listOf(
+        BottomNavigationItem(
+            title = "Home",
+            selectedIcon = ImageVector.vectorResource(id = R.drawable.home_selected),
+            unselectedIcon = ImageVector.vectorResource(id = R.drawable.home_unselected),
+            route = AppScreens.HomeScreen.route
+        ),
+        BottomNavigationItem(
+            title = "Favorite",
+            selectedIcon = ImageVector.vectorResource(id = R.drawable.favorite_selected),
+            unselectedIcon = ImageVector.vectorResource(id = R.drawable.favorite_unselected),
+            route = AppScreens.FavoriteScreen.route
+        )
+    )
 
     LaunchedEffect(key1 = true) {
         activity?.window?.let { window ->
@@ -71,12 +98,52 @@ fun HomeScreen(navController: NavController) {
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        containerColor = Color.White
+        containerColor = Color.White,
+        bottomBar = {
+            NavigationBar(
+                containerColor = Color.White,
+            ) {
+                items.forEachIndexed { index, bottomNavigationItem ->
+                    NavigationBarItem(
+                        icon = {
+                            Icon(
+                                imageVector = if (index == 0) {
+                                    bottomNavigationItem.selectedIcon
+                                } else {
+                                    bottomNavigationItem.unselectedIcon
+                                },
+                                contentDescription = bottomNavigationItem.title
+                            )
+                        },
+                        label = {
+                            Text(
+                                text = bottomNavigationItem.title,
+                                color = if (index == 0) {
+                                    primaryColor
+                                } else {
+                                    DarkGreyColor
+                                }
+                            )
+                        },
+                        selected = index == 0,
+                        onClick = {
+                            navController.navigate(bottomNavigationItem.route)
+                        },
+                        colors = androidx.compose.material3.NavigationBarItemDefaults
+                            .colors(
+                                selectedIconColor = primaryColor,
+                                indicatorColor = Color.White,
+                            )
+                    )
+
+                }
+            }
+        }
     ) {
         Log.d("HomeScreen", it.toString())
         LazyColumn(
             modifier = Modifier
-                .padding(top = 40.dp, start = 16.dp, end = 16.dp, bottom = 30.dp)
+                .padding(top = 40.dp, start = 16.dp, end = 16.dp, bottom = 70.dp)
                 .background(Color.White),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
@@ -113,11 +180,13 @@ fun HomeScreen(navController: NavController) {
                                     )
                                 }
                             }
+
                             is Resource.Error -> {
                                 item {
                                     Text(text = "Error: ${resource.message}")
                                 }
                             }
+
                             is Resource.Loading -> {
                                 item {
                                     CircularProgressIndicator()
@@ -132,12 +201,12 @@ fun HomeScreen(navController: NavController) {
                     modifier = Modifier.padding(top = 20.dp)
                 )
             }
-            allRecipe?.let{resource->
-                when(resource) {
+            allRecipe?.let { resource ->
+                when (resource) {
                     is Resource.Success -> {
                         items(resource.data!!.number) {
                             RecipeCardMain(
-                                subtitle = "Ready in ${ Random.nextInt((180 - 45) / 5 + 1) * 5 + 45} min",
+                                subtitle = "Ready in ${Random.nextInt((180 - 45) / 5 + 1) * 5 + 45} min",
                                 title = allRecipe.data!!.results[it].title,
                                 imageUrl = allRecipe.data!!.results[it].image,
                                 onClick = {
