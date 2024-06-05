@@ -42,6 +42,7 @@ import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.Recip
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.SearchBar
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.SubHeading
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.updateStatusBarTheme
+import kotlin.random.Random
 
 @ExperimentalMaterial3Api
 @Composable
@@ -130,7 +131,7 @@ fun HomeScreen(navController: NavController) {
                     is Resource.Success -> {
                         items(resource.data!!.number) {
                             RecipeCardMain(
-                                subtitle = "Ready in ${allRecipe.data!!.results[it]} min",
+                                subtitle = "Ready in ${ Random.nextInt((180 - 45) / 5 + 1) * 5 + 45} min",
                                 title = allRecipe.data!!.results[it].title,
                                 imageUrl = allRecipe.data!!.results[it].image,
                                 onClick = {
