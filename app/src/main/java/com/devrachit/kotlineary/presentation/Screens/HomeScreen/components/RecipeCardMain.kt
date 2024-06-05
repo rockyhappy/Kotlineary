@@ -1,5 +1,6 @@
 package com.devrachit.kotlineary.presentation.Screens.HomeScreen.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -33,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.devrachit.kotlineary.common.Constants
+import com.devrachit.kotlineary.ui.theme.greyColor
 import com.devrachit.kotlineary.ui.theme.primaryColor
 
 @ExperimentalMaterial3Api
@@ -47,8 +49,8 @@ fun RecipeCardMain(subtitle: String, title: String, imageUrl: String, onClick: (
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(140.dp),
-        contentAlignment = Alignment.CenterStart
+            .height(100.dp),
+        contentAlignment = Alignment.CenterStart,
     ) {
         //Image
         //Title
@@ -57,6 +59,7 @@ fun RecipeCardMain(subtitle: String, title: String, imageUrl: String, onClick: (
             modifier = Modifier.fillMaxSize(),
             shape = RoundedCornerShape(16.dp),
             elevation = CardDefaults.cardElevation(),
+            border = BorderStroke(1.dp, greyColor)
         ) {
             Box(
                 modifier = Modifier.fillMaxSize().background(Color.White),

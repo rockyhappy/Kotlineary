@@ -44,8 +44,8 @@ fun RecipeCardPopular(subtitle:String,title:String , imageUrl:String , onClick:(
     )
     Box(
         modifier= Modifier
-            .height(200.dp)
-            .width(200.dp),
+            .height(156.dp)
+            .width(156.dp),
         contentAlignment = Alignment.BottomStart
     ){
         //Image

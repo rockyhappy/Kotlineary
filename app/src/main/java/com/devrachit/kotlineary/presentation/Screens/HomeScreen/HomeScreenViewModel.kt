@@ -18,4 +18,7 @@ class HomeScreenViewModel @Inject constructor(
 
     }
     fun getSearchQuery() = searchQuery.value
+
+    val _loading = MutableStateFlow(false)
+    val loading = _loading.asStateFlow()
 }

@@ -6,4 +6,6 @@
     <string name="pleaseSignIn">Please sign in to continue</string>
     <string name="homeHead">👋 Hey  User</string>
     <string name="homeSubHead">Discover tasty and healthy receipt</string>
+    <string name="popularRecipes">Popular Recipes</string>
+    <string name="seeAll">All Recipes</string>
 </resources>

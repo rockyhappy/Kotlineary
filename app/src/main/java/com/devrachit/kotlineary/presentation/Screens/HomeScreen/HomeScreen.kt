@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -33,9 +34,11 @@ import androidx.navigation.NavController
 import com.devrachit.kotlineary.R
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.HeadingHome
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.HeadingHomeSmall
+import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.LoadingDialog
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.RecipeCardMain
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.RecipeCardPopular
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.SearchBar
+import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.SubHeading
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.updateStatusBarTheme
 
 @ExperimentalMaterial3Api
@@ -44,6 +47,7 @@ fun HomeScreen(navController: NavController) {
     val viewModel: HomeScreenViewModel = hiltViewModel()
     val searchQuery = viewModel.searchQuery.collectAsStateWithLifecycle().value
     val activity = LocalContext.current as? Activity
+    val loading = viewModel.loading.collectAsStateWithLifecycle()
     LaunchedEffect(key1=true) {
             activity?.window?.let { window ->
                 WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
@@ -57,8 +61,9 @@ fun HomeScreen(navController: NavController) {
         Log.d("HomeScreen", it.toString())
         LazyColumn(
             modifier = Modifier
-                .padding(top = 40.dp, start = 30.dp, end = 30.dp)
-                .background(Color.White)
+                .padding(top = 40.dp, start = 16.dp, end = 16.dp)
+                .background(Color.White),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             item {
                 HeadingHome(text = stringResource(R.string.homeHead))
@@ -68,8 +73,29 @@ fun HomeScreen(navController: NavController) {
                     onValueChange = { newValue -> viewModel.setSearchQuery(newValue) },
                     modifier = Modifier.padding(top = 20.dp)
                 )
+                SubHeading(text = stringResource(id =R.string.popularRecipes), modifier=Modifier.padding(top=20.dp))
+                LazyRow(
+                    modifier = Modifier.padding(top = 11.dp).fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(20.dp)
+                )
+                {
+                    items(5) {
+                        RecipeCardPopular(subtitle = "Ready in 25 min", title = "Shahi Paneer", imageUrl = "https://picsum.photos/300/200", onClick = {})
+                    }
+                }
+                SubHeading(text = stringResource(id =R.string.seeAll), modifier=Modifier.padding(top=20.dp))
+            }
+            items(7)
+            {
+                RecipeCardMain(subtitle = "Ready in 25 min", title = "Shahi Paneer", imageUrl = "https://picsum.photos/300/300", onClick = {})
             }
         }
+    }
+    if (loading.value) {
+        LoadingDialog(isShowingDialog = true)
+    }
+    else{
+        LoadingDialog(isShowingDialog =false)
     }
 
 }
