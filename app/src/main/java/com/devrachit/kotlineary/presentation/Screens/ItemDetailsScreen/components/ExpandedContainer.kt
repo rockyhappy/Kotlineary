@@ -67,7 +67,8 @@ fun ExpandableContainer(
                 Icon(
                     imageVector = if (expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.ArrowDropDown,
                     contentDescription = if (expanded) "Collapse" else "Expand",
-                    modifier = Modifier.height(24.dp).width(24.dp)
+                    modifier = Modifier.height(24.dp).width(24.dp),
+                    tint = Color.Black
                 )
             }
             if (expanded) {
