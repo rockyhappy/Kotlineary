@@ -8,4 +8,5 @@
     <string name="homeSubHead">Discover tasty and healthy receipt</string>
     <string name="popularRecipes">Popular Recipes</string>
     <string name="seeAll">All Recipes</string>
+    <string name="sample">This information is not provided by the spoonacular api so this text is completely random and more this is only for testing purpose, the api provided response could be easily integrated in this section to show that this is also a dynamically created section</string>
 </resources>
