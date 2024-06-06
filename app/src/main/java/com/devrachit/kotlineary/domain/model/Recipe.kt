@@ -19,7 +19,7 @@ data class Recipe(
     val license : String,
     val lowFodmap : Boolean,
     val occasions : List<Any>,
-    val originalId : Any,
+//    val originalId : Any,
     val preparationMinutes : Any,
     val pricePerServing : Double,
     val readyInMinutes : Int,

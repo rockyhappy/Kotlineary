@@ -51,6 +51,7 @@ import com.devrachit.kotlineary.R
 import com.devrachit.kotlineary.common.Constants
 import com.devrachit.kotlineary.common.Resource
 import com.devrachit.kotlineary.data.remote.dto.ItemModelDto
+import com.devrachit.kotlineary.data.remote.dto.recipieModel
 import com.devrachit.kotlineary.presentation.Screens.ItemDetailsScreen.components.ElementCardCombo
 import com.devrachit.kotlineary.presentation.Screens.ItemDetailsScreen.components.ExpandableContainer
 import com.devrachit.kotlineary.presentation.Screens.ItemDetailsScreen.components.IngredientCard
@@ -63,7 +64,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun ItemDetailBottomSheet(
     itemDetails: ItemModelDto?,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    recipeModel: Resource<recipieModel>? = null
 ) {
     val image = remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
@@ -590,11 +592,11 @@ fun ItemDetailBottomSheet(
                             modifier=Modifier.fillMaxWidth().height(380.dp).padding(top=16.dp,start=16.dp,end=16.dp),
                             verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
-                            items(5){
+                            items(recipeModel?.data?.recipes!!.size){
                                 RecipeCardMain(
-                                    subtitle = "Ready in 15 min",
-                                    title = "Shahi Paneer",
-                                    imageUrl = "https://spoonacular.com/recipeImages/715594-312x231.jpg",
+                                    subtitle = "Ready in ${recipeModel.data.recipes[it].readyInMinutes}min",
+                                    title = recipeModel.data.recipes[it].title,
+                                    imageUrl = recipeModel.data.recipes[it].image,
                                     onClick = {}
                                 )
                             }

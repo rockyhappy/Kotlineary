@@ -27,6 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     private val repository: SpoonacularRepository,
+
     private val getRandomRecipes: Get_Random_Recipes,
     private val getAllRecipes: Get_All_Recipes,
     private val getSearchRecipe: Get_search_recipe,

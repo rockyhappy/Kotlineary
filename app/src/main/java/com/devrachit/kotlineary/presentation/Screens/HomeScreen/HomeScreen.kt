@@ -63,6 +63,7 @@ import com.devrachit.kotlineary.presentation.navigation.AppScreens
 import com.devrachit.kotlineary.ui.theme.DarkGreyColor
 import com.devrachit.kotlineary.ui.theme.primaryColor
 import kotlin.random.Random
+
 @ExperimentalMaterial3Api
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -74,7 +75,7 @@ fun HomeScreen(navController: NavController) {
     val allRecipe = viewModel.allRecipeModel.recipes.collectAsStateWithLifecycle().value
     val searchResults = viewModel.allRecipeModel.searchRecipe.collectAsStateWithLifecycle().value
     val selectedItemDetails = viewModel.searchItemDetails.collectAsStateWithLifecycle().value
-    val deployBottomSheet = remember{ mutableStateOf(false) }
+    val deployBottomSheet = remember { mutableStateOf(false) }
     val isSearchFieldFocused = rememberSaveable { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
     val interactionSource = remember { MutableInteractionSource() }
@@ -84,7 +85,7 @@ fun HomeScreen(navController: NavController) {
         viewModel.allRecipeModel.setId(id)
         navController.navigate(AppScreens.ItemDetailsScreen.route)
     }
-    val onItemBottomSheetClick :(id: Int) -> Unit = { id ->
+    val onItemBottomSheetClick: (id: Int) -> Unit = { id ->
         viewModel.allRecipeModel.setId(id)
         viewModel.getRecipe(id)
         deployBottomSheet.value = true
@@ -93,7 +94,8 @@ fun HomeScreen(navController: NavController) {
 
     LaunchedEffect(key1 = true) {
         activity?.window?.let { window ->
-            WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
+            WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars =
+                true
         }
         viewModel.getRecipe()
         viewModel.getAllRecipes()
@@ -101,13 +103,13 @@ fun HomeScreen(navController: NavController) {
 
 
 
-        if (searchQuery.isNotEmpty() ) {
-            // Show search results
-            Scaffold(
-                modifier = Modifier.fillMaxSize(),
-                containerColor = Color.White,
-            ) {
-                Log.d("HomeScreen", it.toString())
+    if (searchQuery.isNotEmpty()) {
+        // Show search results
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            containerColor = Color.White,
+        ) {
+            Log.d("HomeScreen", it.toString())
             LazyColumn(
                 modifier = Modifier
                     .padding(top = 40.dp, start = 16.dp, end = 16.dp, bottom = 10.dp)
@@ -118,7 +120,8 @@ fun HomeScreen(navController: NavController) {
                     SearchBar2(
                         searchQuery = searchQuery,
                         onValueChange = { newValue -> viewModel.setSearchQuery(newValue) },
-                        modifier = Modifier.padding(top = 20.dp)
+                        modifier = Modifier
+                            .padding(top = 20.dp)
                             .focusRequester(focusRequester)
                             .focusable(interactionSource = interactionSource),
                         onDismiss = { viewModel.setSearchQuery("") }
@@ -139,30 +142,35 @@ fun HomeScreen(navController: NavController) {
                                 )
                             }
                         }
+
                         is Resource.Error -> {
                             item {
                                 Text(text = "Error: ${resource.message}")
                             }
                         }
+
                         is Resource.Loading -> {
                             item {
-                                CircularProgressIndicator(color= primaryColor)
+                                CircularProgressIndicator(color = primaryColor)
                             }
                         }
                     }
                 }
             }
+        }
+    } else {
+        // Show home screen widgets
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            containerColor = Color.White,
+            bottomBar = {
+                BottomNavigationBar(
+                    navController = navController,
+                    currentRoute = navController.currentDestination?.route ?: ""
+                )
             }
-        } else {
-            // Show home screen widgets
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    containerColor = Color.White,
-                    bottomBar = {
-                        BottomNavigationBar(navController = navController, currentRoute = navController.currentDestination?.route ?: "")
-                    }
-                ) {
-                    Log.d("HomeScreen", it.toString())
+        ) {
+            Log.d("HomeScreen", it.toString())
             LazyColumn(
                 modifier = Modifier
                     .padding(top = 40.dp, start = 16.dp, end = 16.dp, bottom = 70.dp)
@@ -175,11 +183,12 @@ fun HomeScreen(navController: NavController) {
                     SearchBar(
                         searchQuery = searchQuery,
                         onValueChange = { newValue -> viewModel.setSearchQuery(newValue) },
-                        modifier = Modifier.padding(top = 20.dp)
+                        modifier = Modifier
+                            .padding(top = 20.dp)
                             .focusRequester(focusRequester)
                             .focusable(interactionSource = interactionSource),
 
-                    )
+                        )
                     SubHeading(
                         text = stringResource(id = R.string.popularRecipes),
                         modifier = Modifier.padding(top = 20.dp)
@@ -204,14 +213,16 @@ fun HomeScreen(navController: NavController) {
                                         )
                                     }
                                 }
+
                                 is Resource.Error -> {
                                     item {
                                         Text(text = "Error: ${resource.message}")
                                     }
                                 }
+
                                 is Resource.Loading -> {
                                     item {
-                                        CircularProgressIndicator(color= primaryColor)
+                                        CircularProgressIndicator(color = primaryColor)
                                     }
                                 }
                             }
@@ -236,14 +247,16 @@ fun HomeScreen(navController: NavController) {
                                 )
                             }
                         }
+
                         is Resource.Error -> {
                             item {
                                 Text(text = "Error: ${resource.message}")
                             }
                         }
+
                         is Resource.Loading -> {
                             item {
-                                CircularProgressIndicator(color= primaryColor)
+                                CircularProgressIndicator(color = primaryColor)
                             }
                         }
                     }
@@ -251,11 +264,11 @@ fun HomeScreen(navController: NavController) {
             }
         }
     }
-    if(deployBottomSheet.value && selectedItemDetails !=null )
-    {
+    if (deployBottomSheet.value && selectedItemDetails != null) {
         ItemDetailBottomSheet(
             itemDetails = selectedItemDetails,
-            onDismissRequest = { deployBottomSheet.value = false }
+            onDismissRequest = { deployBottomSheet.value = false },
+            recipeModel = viewModel.sharedModel.recipes.collectAsStateWithLifecycle().value
         )
 
     }

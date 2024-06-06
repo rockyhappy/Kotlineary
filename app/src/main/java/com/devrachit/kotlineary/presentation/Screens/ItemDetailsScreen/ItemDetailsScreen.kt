@@ -35,6 +35,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.devrachit.kotlineary.R
+import com.devrachit.kotlineary.data.remote.dto.ItemModelDto
+import com.devrachit.kotlineary.domain.model.Recipe
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.LoadingDialog
 import com.devrachit.kotlineary.presentation.Screens.ItemDetailsScreen.components.ElementCardCombo
 import com.devrachit.kotlineary.presentation.Screens.ItemDetailsScreen.components.ExpandableContainer
@@ -43,6 +45,7 @@ import com.devrachit.kotlineary.presentation.Screens.ItemDetailsScreen.component
 import com.devrachit.kotlineary.presentation.Screens.ItemDetailsScreen.components.RecipeImage
 import com.devrachit.kotlineary.presentation.Screens.ItemDetailsScreen.components.SubHeadingItemDetail
 import com.devrachit.kotlineary.ui.theme.DarkGreyColor
+import kotlinx.coroutines.delay
 
 @Composable
 fun ItemDetailsScreen(navController: NavController) {
@@ -52,8 +55,16 @@ fun ItemDetailsScreen(navController: NavController) {
     val recipe = viewModel.recipe.collectAsStateWithLifecycle().value
     val isFavorite = remember { mutableStateOf(false) }
     val loading = viewModel.loading.collectAsStateWithLifecycle()
+    val recipeFetch = viewModel.recipeFetch.collectAsStateWithLifecycle().value
     LaunchedEffect(key1 = true) {
         viewModel.getRecipe(id)
+    }
+    if(recipeFetch)
+    {
+        viewModel.isRecipeFavorite(recipe!!.id) {
+            isFavorite.value = it
+            println(it)
+        }
     }
     val ScrollState = remember { ScrollState(0) }
     Scaffold(
@@ -75,6 +86,46 @@ fun ItemDetailsScreen(navController: NavController) {
                 modifier = Modifier.align(Alignment.TopEnd)
             ) {
                 isFavorite.value = !isFavorite.value
+                if (isFavorite.value) {
+                    viewModel.saveRecipeToFavorites(Recipe(
+                        id = recipe!!.id,
+                        title = recipe.title,
+                        image = recipe.image,
+                        readyInMinutes = recipe.readyInMinutes,
+                        servings = recipe.servings,
+                        pricePerServing = recipe.pricePerServing,
+                        summary = recipe.summary,
+                        instructions = recipe.instructions,
+                        cuisines = recipe.cuisines,
+                        aggregateLikes = recipe.aggregateLikes,
+                        cheap = recipe.cheap,
+                        creditsText = recipe.creditsText,
+                        dairyFree = recipe.dairyFree,
+                        glutenFree = recipe.glutenFree,
+                        healthScore = recipe.healthScore,
+                        imageType = recipe.imageType,
+                        lowFodmap = recipe.lowFodmap,
+//                        originalId = recipe.originalId,
+                        preparationMinutes = recipe.preparationMinutes,
+                        sourceName = recipe.sourceName,
+                        sourceUrl = recipe.sourceUrl,
+                        spoonacularScore = recipe.spoonacularScore,
+                        sustainable = recipe.sustainable,
+                        vegan = recipe.vegan,
+                        vegetarian = recipe.vegetarian,
+                        veryHealthy = recipe.veryHealthy,
+                        veryPopular = recipe.veryPopular,
+                        weightWatcherSmartPoints = recipe.weightWatcherSmartPoints,
+                        dishTypes = recipe.dishTypes,
+                        gaps = recipe.gaps,
+                        spoonacularSourceUrl = "",
+                        cookingMinutes = recipe.cookingMinutes,
+                        license = "",
+                        diets = recipe.diets ,
+                        occasions = recipe.occasions))
+                } else {
+                    viewModel.removeRecipeFromFavorites(recipe!!.id)
+                }
             }
             ElementCardCombo(
                 title1 = "Ready in",

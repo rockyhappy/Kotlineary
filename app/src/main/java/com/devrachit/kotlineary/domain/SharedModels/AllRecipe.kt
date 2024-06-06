@@ -3,6 +3,7 @@ package com.devrachit.kotlineary.domain.SharedModels
 import com.devrachit.kotlineary.common.Resource
 import com.devrachit.kotlineary.data.remote.dto.AllRecipeDto
 import com.devrachit.kotlineary.data.remote.dto.recipieModel
+import com.devrachit.kotlineary.room.FavoriteRecipe
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
@@ -35,4 +36,13 @@ class AllRecipe @Inject constructor() {
     }
 
     fun getSearchRecipe() = searchRecipe.value
+
+
+    val _favoriteRecipe = MutableStateFlow<FavoriteRecipe?>(null)
+    val favoriteRecipe = _favoriteRecipe.asStateFlow()
+
+    fun setFavoriteRecipe(recipe: FavoriteRecipe){
+        _favoriteRecipe.value = recipe
+    }
+    fun getFavoriteRecipe() = favoriteRecipe.value
 }
