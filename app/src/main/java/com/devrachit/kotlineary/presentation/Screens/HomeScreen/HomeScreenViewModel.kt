@@ -4,12 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devrachit.kotlineary.common.Constants
 import com.devrachit.kotlineary.common.Resource
+import com.devrachit.kotlineary.data.remote.dto.ItemModelDto
 import com.devrachit.kotlineary.data.remote.dto.recipieModel
 import com.devrachit.kotlineary.domain.SharedModels.AllRecipe
 import com.devrachit.kotlineary.domain.SharedModels.PopularRecipe
 import com.devrachit.kotlineary.domain.repository.SpoonacularRepository
 import com.devrachit.kotlineary.domain.use_case.get_all_recipes.Get_All_Recipes
 import com.devrachit.kotlineary.domain.use_case.get_random_recipes.Get_Random_Recipes
+import com.devrachit.kotlineary.domain.use_case.get_recipe.Get_Recipe
 import com.devrachit.kotlineary.domain.use_case.get_search_recipe.Get_search_recipe
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +31,8 @@ class HomeScreenViewModel @Inject constructor(
     private val getAllRecipes: Get_All_Recipes,
     private val getSearchRecipe: Get_search_recipe,
     val sharedModel : PopularRecipe,
-    val allRecipeModel : AllRecipe
+    val allRecipeModel : AllRecipe,
+    val getRecipe: Get_Recipe
 ) : ViewModel(){
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
@@ -116,6 +119,28 @@ class HomeScreenViewModel @Inject constructor(
                 }
                 is Resource.Loading -> {
                     println("Loading")
+                    _loading.value = true
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    val _searchItemDetails = MutableStateFlow<ItemModelDto?>(null)
+    val searchItemDetails = _searchItemDetails.asStateFlow()
+    fun getRecipe(id : Int)
+    {
+        getRecipe(id, apiKey = Constants.API_KEY).onEach{ result->
+            when(result)
+            {
+                is Resource.Success -> {
+                    _searchItemDetails.value = result.data
+                    println(result.data)
+                    _loading.value = false
+                }
+                is Resource.Error -> {
+                    _loading.value = false
+                }
+                is Resource.Loading -> {
                     _loading.value = true
                 }
             }

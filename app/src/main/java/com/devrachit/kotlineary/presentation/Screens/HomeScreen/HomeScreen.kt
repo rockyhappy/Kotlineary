@@ -4,6 +4,9 @@ import android.app.Activity
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.focusable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,7 +28,14 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -41,10 +51,12 @@ import com.devrachit.kotlineary.common.Resource
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.BottomNavigationBar
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.HeadingHome
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.HeadingHomeSmall
+import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.ItemDetailBottomSheet
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.LoadingDialog
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.RecipeCardMain
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.RecipeCardPopular
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.SearchBar
+import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.SearchBar2
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.SubHeading
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.components.updateStatusBarTheme
 import com.devrachit.kotlineary.presentation.navigation.AppScreens
@@ -61,10 +73,22 @@ fun HomeScreen(navController: NavController) {
     val recipes = viewModel.sharedModel.recipes.collectAsStateWithLifecycle().value
     val allRecipe = viewModel.allRecipeModel.recipes.collectAsStateWithLifecycle().value
     val searchResults = viewModel.allRecipeModel.searchRecipe.collectAsStateWithLifecycle().value
+    val selectedItemDetails = viewModel.searchItemDetails.collectAsStateWithLifecycle().value
+    val deployBottomSheet = remember{ mutableStateOf(false) }
+    val isSearchFieldFocused = rememberSaveable { mutableStateOf(false) }
+    val focusRequester = remember { FocusRequester() }
+    val interactionSource = remember { MutableInteractionSource() }
+    val focused by interactionSource.collectIsFocusedAsState()
 
     val onItemClick: (id: Int) -> Unit = { id ->
         viewModel.allRecipeModel.setId(id)
         navController.navigate(AppScreens.ItemDetailsScreen.route)
+    }
+    val onItemBottomSheetClick :(id: Int) -> Unit = { id ->
+        viewModel.allRecipeModel.setId(id)
+        viewModel.getRecipe(id)
+        deployBottomSheet.value = true
+
     }
 
     LaunchedEffect(key1 = true) {
@@ -77,7 +101,7 @@ fun HomeScreen(navController: NavController) {
 
 
 
-        if (searchQuery.isNotEmpty()) {
+        if (searchQuery.isNotEmpty() ) {
             // Show search results
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
@@ -86,15 +110,18 @@ fun HomeScreen(navController: NavController) {
                 Log.d("HomeScreen", it.toString())
             LazyColumn(
                 modifier = Modifier
-                    .padding(top = 40.dp, start = 16.dp, end = 16.dp, bottom = 70.dp)
+                    .padding(top = 40.dp, start = 16.dp, end = 16.dp, bottom = 10.dp)
                     .background(Color.White),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 item {
-                    SearchBar(
+                    SearchBar2(
                         searchQuery = searchQuery,
                         onValueChange = { newValue -> viewModel.setSearchQuery(newValue) },
                         modifier = Modifier.padding(top = 20.dp)
+                            .focusRequester(focusRequester)
+                            .focusable(interactionSource = interactionSource),
+                        onDismiss = { viewModel.setSearchQuery("") }
                     )
                 }
                 searchResults?.let { resource ->
@@ -107,7 +134,7 @@ fun HomeScreen(navController: NavController) {
                                     title = recipe.title,
                                     imageUrl = recipe.image,
                                     onClick = {
-                                        onItemClick(recipe.id)
+                                        onItemBottomSheetClick(recipe.id)
                                     }
                                 )
                             }
@@ -119,7 +146,7 @@ fun HomeScreen(navController: NavController) {
                         }
                         is Resource.Loading -> {
                             item {
-                                CircularProgressIndicator()
+                                CircularProgressIndicator(color= primaryColor)
                             }
                         }
                     }
@@ -149,6 +176,9 @@ fun HomeScreen(navController: NavController) {
                         searchQuery = searchQuery,
                         onValueChange = { newValue -> viewModel.setSearchQuery(newValue) },
                         modifier = Modifier.padding(top = 20.dp)
+                            .focusRequester(focusRequester)
+                            .focusable(interactionSource = interactionSource),
+
                     )
                     SubHeading(
                         text = stringResource(id = R.string.popularRecipes),
@@ -181,7 +211,7 @@ fun HomeScreen(navController: NavController) {
                                 }
                                 is Resource.Loading -> {
                                     item {
-                                        CircularProgressIndicator()
+                                        CircularProgressIndicator(color= primaryColor)
                                     }
                                 }
                             }
@@ -213,13 +243,21 @@ fun HomeScreen(navController: NavController) {
                         }
                         is Resource.Loading -> {
                             item {
-                                CircularProgressIndicator()
+                                CircularProgressIndicator(color= primaryColor)
                             }
                         }
                     }
                 }
             }
         }
+    }
+    if(deployBottomSheet.value && selectedItemDetails !=null )
+    {
+        ItemDetailBottomSheet(
+            itemDetails = selectedItemDetails,
+            onDismissRequest = { deployBottomSheet.value = false }
+        )
+
     }
 
     if (loading.value) {
