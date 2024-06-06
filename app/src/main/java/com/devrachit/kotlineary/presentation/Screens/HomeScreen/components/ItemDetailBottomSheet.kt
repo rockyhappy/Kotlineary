@@ -22,6 +22,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -70,7 +71,6 @@ fun ItemDetailBottomSheet(
     val showIngredients = remember { mutableStateOf(false) }
     val showFullRecipe = remember { mutableStateOf(false) }
     val showSimilarRecipes = remember { mutableStateOf(false) }
-
     LaunchedEffect(sheetState) {
         scope.launch {
             sheetState.show()
@@ -443,6 +443,166 @@ fun ItemDetailBottomSheet(
                         )
                     }
                 }
+            }
+            if(showSimilarRecipes.value)
+            {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(600.dp)
+                        .background(Color.White)
+                        .padding(top = 0.dp)
+                )
+                {
+                    Column(
+                        modifier = Modifier
+                            .background(Color.White)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(60.dp)
+                                .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = androidx.compose.ui.Alignment.Top
+                        )
+                        {
+                            Icon(
+                                imageVector = Icons.Filled.ArrowBack,
+                                contentDescription = "Back button to close the bottom sheet",
+                                modifier = Modifier.clickable {
+                                    showSimilarRecipes.value = !showSimilarRecipes.value
+                                },
+                                tint = Color.Black
+                            )
+                            Text(
+                                text = itemDetails!!.title,
+                                fontFamily = Constants.CustomFontFamilyBold,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontStyle = FontStyle.Normal,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier
+                                    .background(Color.Transparent)
+                                    .width(300.dp)
+                                    .padding(start = 16.dp),
+                                color = Color.Black
+                            )
+                            Icon(
+                                imageVector = if (image.value) ImageVector.vectorResource(id = R.drawable.favorite_selected) else ImageVector.vectorResource(
+                                    id = R.drawable.favorite_unselected
+                                ),
+                                contentDescription = "Favorite button to add the recipe to favorites",
+                                modifier = Modifier.clickable {
+                                    image.value = !image.value
+                                },
+                                tint = primaryColor
+                            )
+                        }
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(end = 16.dp)
+                                .height(50.dp)
+                                .clickable {
+                                    showFullRecipe.value = !showFullRecipe.value
+                                    showSimilarRecipes.value = !showSimilarRecipes.value
+                                }
+                        )
+                        {
+                            Text(
+                                text = "Ingredients",
+                                fontFamily = Constants.CustomFontFamilyBold,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontStyle = FontStyle.Normal,
+                                modifier = Modifier
+                                    .background(Color.Transparent)
+                                    .padding(start = 16.dp),
+                                color = Color.Black
+                            )
+                            Icon(
+                                imageVector = Icons.Default.ArrowDropDown,
+                                contentDescription = null,
+                                tint = Color.Black
+                            )
+
+                        }
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(end = 16.dp)
+                                .height(50.dp)
+                                .clickable {
+
+                                    showSimilarRecipes.value = !showSimilarRecipes.value
+                                }
+                        )
+                        {
+                            Text(
+                                text = "Full Recipe",
+                                fontFamily = Constants.CustomFontFamilyBold,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontStyle = FontStyle.Normal,
+                                modifier = Modifier
+                                    .background(Color.Transparent)
+                                    .padding(start = 16.dp),
+                                color = Color.Black
+                            )
+                            Icon(
+                                imageVector = Icons.Default.ArrowDropDown,
+                                contentDescription = null,
+                                tint = Color.Black
+                            )
+
+                        }
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(end = 16.dp)
+                                .height(50.dp)
+                        )
+                        {
+                            Text(
+                                text = "Similar Recipes",
+                                fontFamily = Constants.CustomFontFamilyBold,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontStyle = FontStyle.Normal,
+                                modifier = Modifier
+                                    .background(Color.Transparent)
+                                    .padding(start = 16.dp),
+                                color = Color.Black
+                            )
+                            Icon(
+                                imageVector = Icons.Default.ArrowDropDown,
+                                contentDescription = null,
+                                tint = Color.Black
+                            )
+
+                        }
+                        LazyColumn(
+                            modifier=Modifier.fillMaxWidth().height(380.dp).padding(top=16.dp,start=16.dp,end=16.dp),
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            items(5){
+                                RecipeCardMain(
+                                    subtitle = "Ready in 15 min",
+                                    title = "Shahi Paneer",
+                                    imageUrl = "https://spoonacular.com/recipeImages/715594-312x231.jpg",
+                                    onClick = {}
+                                )
+                            }
+                        }
+
+                    }
+                }
+
             }
 
         }
