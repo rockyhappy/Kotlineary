@@ -1,4 +1,4 @@
-package com.devrachit.kotlineary.presentation.Screens.FavoriteScreen
+package com.devrachit.kotlineary.presentation.Screens.FavoriteItemDetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FavoriteScreenViewModel @Inject constructor(
+class FavoriteItemDetailsViewModel @Inject constructor(
     private val favoriteRecipeDao: FavoriteRecipeDao,
     val allRecipes: AllRecipe,
 ):ViewModel() {
@@ -29,6 +29,9 @@ class FavoriteScreenViewModel @Inject constructor(
 
     val _favoriteRecipes = MutableStateFlow<List<FavoriteRecipe>>(emptyList())
     val favoriteRecipes = _favoriteRecipes.asStateFlow()
+
+    val _favoriteRecipe = MutableStateFlow<FavoriteRecipe?>(null)
+    val favoriteRecipe = _favoriteRecipe.asStateFlow()
     fun saveRecipeToFavorites(recipe: Recipe) {
         viewModelScope.launch {
             val favoriteRecipe = FavoriteRecipe(
@@ -61,6 +64,7 @@ class FavoriteScreenViewModel @Inject constructor(
         viewModelScope.launch {
             val recipe = favoriteRecipeDao.getFavorite(recipeId)
             onResult(recipe)
+            _favoriteRecipe.value = recipe
             println(recipe)
         }
     }

@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.devrachit.kotlineary.presentation.Screens.FavoriteItemDetails.FavoriteItemDetailsScreen
 import com.devrachit.kotlineary.presentation.Screens.FavoriteScreen.FavoriteScreen
 import com.devrachit.kotlineary.presentation.Screens.HomeScreen.HomeScreen
 import com.devrachit.kotlineary.presentation.Screens.ItemDetailsScreen.ItemDetailsScreen
@@ -33,6 +34,10 @@ fun NavHost(navHostController: NavHostController) {
         composable(AppScreens.FavoriteScreen.route)
         {
             FavoriteScreen(navController = navHostController)
+        }
+        composable(AppScreens.FavoriteItemDetailsScreen.route)
+        {
+            FavoriteItemDetailsScreen(navController = navHostController)
         }
     }
 
