@@ -8,7 +8,7 @@ data class ItemModelDto(
     val creditsText: String,
     val cuisines: List<String>,
     val dairyFree: Boolean,
-    val diets: List<Any>,
+    val diets: List<String>,
     val dishTypes: List<String>,
     val extendedIngredients: List<ExtendedIngredientX>,
     val gaps: String,
