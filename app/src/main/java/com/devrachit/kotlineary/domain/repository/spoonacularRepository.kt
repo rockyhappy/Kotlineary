@@ -11,4 +11,6 @@ interface SpoonacularRepository {
     suspend fun getAllRecipes(apiKey: String) : AllRecipeDto
 
     suspend fun getRecipe(id: Int, apiKey: String) : ItemModelDto
+
+    suspend fun searchRecipe(query: String, apiKey: String) : AllRecipeDto
 }

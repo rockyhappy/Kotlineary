@@ -26,4 +26,13 @@ class AllRecipe @Inject constructor() {
         _id.value = id
     }
     fun getId() = id.value
+
+    private val _searchRecipe = MutableStateFlow<Resource<AllRecipeDto>?>(null)
+    val searchRecipe = _searchRecipe.asStateFlow()
+
+    fun setSearchRecipe(recipe: Resource<AllRecipeDto>){
+        _searchRecipe.value = recipe
+    }
+
+    fun getSearchRecipe() = searchRecipe.value
 }

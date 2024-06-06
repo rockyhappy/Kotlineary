@@ -24,4 +24,9 @@ class SpoonacularRepositoryImpl @Inject constructor(
     {
         return api.getRecipe(id, apiKey)
     }
+
+    override suspend fun searchRecipe(query: String, apiKey: String): AllRecipeDto
+    {
+        return api.searchRecipe(query, apiKey)
+    }
 }

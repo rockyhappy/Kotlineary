@@ -29,4 +29,10 @@ interface spoonacularApi {
         @Query("apiKey") apiKey: String = API_KEY,
     ): ItemModelDto
 
+    @GET("/recipes/complexSearch")
+    suspend fun searchRecipe(
+        @Query("query") query: String,
+        @Query("apiKey") apiKey: String = API_KEY,
+    ): AllRecipeDto
+
 }

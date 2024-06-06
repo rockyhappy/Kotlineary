@@ -10,10 +10,13 @@ import com.devrachit.kotlineary.domain.SharedModels.PopularRecipe
 import com.devrachit.kotlineary.domain.repository.SpoonacularRepository
 import com.devrachit.kotlineary.domain.use_case.get_all_recipes.Get_All_Recipes
 import com.devrachit.kotlineary.domain.use_case.get_random_recipes.Get_Random_Recipes
+import com.devrachit.kotlineary.domain.use_case.get_search_recipe.Get_search_recipe
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -24,11 +27,13 @@ class HomeScreenViewModel @Inject constructor(
     private val repository: SpoonacularRepository,
     private val getRandomRecipes: Get_Random_Recipes,
     private val getAllRecipes: Get_All_Recipes,
+    private val getSearchRecipe: Get_search_recipe,
     val sharedModel : PopularRecipe,
     val allRecipeModel : AllRecipe
 ) : ViewModel(){
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
+
     fun setSearchQuery(query: String) {
         _searchQuery.value = query
 
@@ -38,6 +43,9 @@ class HomeScreenViewModel @Inject constructor(
     val _loading = MutableStateFlow(false)
     val loading = _loading.asStateFlow()
 
+    init {
+        handleSearchQuery()
+    }
     fun getRecipe(){
         getRandomRecipes(8, Constants.API_KEY).onEach { result->
             println(result)
@@ -67,6 +75,39 @@ class HomeScreenViewModel @Inject constructor(
                     println("Success")
                     _loading.value = false
                     allRecipeModel.setRecipes(result)
+                }
+                is Resource.Error -> {
+                    println("Error")
+                    _loading.value = false
+
+                }
+                is Resource.Loading -> {
+                    println("Loading")
+                    _loading.value = true
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+    private fun handleSearchQuery() {
+        _searchQuery
+            .debounce(1000) // 1-second delay
+            .distinctUntilChanged()
+            .onEach { query ->
+                if (query.isNotEmpty()) {
+                    getQueryRecipes(query)
+                }
+            }
+            .launchIn(viewModelScope)
+    }
+    fun getQueryRecipes(query:String){
+        getSearchRecipe(query=query,Constants.API_KEY).onEach { result->
+            println(result)
+            when (result) {
+                is Resource.Success -> {
+                    println("Success")
+                    allRecipeModel.setSearchRecipe(result)
+                    _loading.value = false
+
                 }
                 is Resource.Error -> {
                     println("Error")
