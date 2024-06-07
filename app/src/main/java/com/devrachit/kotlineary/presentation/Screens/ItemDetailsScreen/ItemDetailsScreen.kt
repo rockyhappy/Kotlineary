@@ -1,5 +1,6 @@
 package com.devrachit.kotlineary.presentation.Screens.ItemDetailsScreen
 
+import android.text.Html
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
@@ -83,7 +84,7 @@ fun ItemDetailsScreen(navController: NavController) {
             RecipeImage(imageUrl = recipe?.image)
             FavoriteButton(
                 isFavorite = isFavorite.value,
-                modifier = Modifier.align(Alignment.TopEnd)
+                modifier = Modifier.align(Alignment.TopEnd).padding(top=10.dp)
             ) {
                 isFavorite.value = !isFavorite.value
                 if (isFavorite.value) {
@@ -163,7 +164,7 @@ fun ItemDetailsScreen(navController: NavController) {
                 modifier = Modifier.padding(top = 700.dp)
             ) {
                 Text(
-                    text = recipe?.instructions ?: "",
+                    text = Html.fromHtml(recipe?.instructions ?: "", Html.FROM_HTML_MODE_LEGACY).toString(),
                     modifier = Modifier.padding(top = 20.dp, start = 16.dp, end = 16.dp),
                     color = DarkGreyColor
                 )
@@ -192,7 +193,7 @@ fun ItemDetailsScreen(navController: NavController) {
                     modifier = Modifier.padding(top = 20.dp, start = 16.dp)
                 )
                 Text(
-                    text = recipe?.summary ?: "",
+                    text = Html.fromHtml(recipe?.summary ?: "" , Html.FROM_HTML_MODE_LEGACY).toString(),
                     modifier = Modifier.padding(top = 20.dp, start = 16.dp, end = 16.dp,bottom=20.dp),
                     color = DarkGreyColor
                 )

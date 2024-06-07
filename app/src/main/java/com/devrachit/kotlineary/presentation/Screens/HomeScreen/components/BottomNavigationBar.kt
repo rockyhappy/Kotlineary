@@ -1,14 +1,17 @@
 package com.devrachit.kotlineary.presentation.Screens.HomeScreen.components
 
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.devrachit.kotlineary.R
 import com.devrachit.kotlineary.presentation.navigation.AppScreens
@@ -41,6 +44,7 @@ fun BottomNavigationBar(navController: NavController, currentRoute: String) {
 
     NavigationBar(
         containerColor = Color.White,
+//        modifier= Modifier.height(64.dp)
     ) {
         items.forEach { bottomNavigationItem ->
             val selected = currentRoute == bottomNavigationItem.route
