@@ -65,6 +65,9 @@ The app is built using Clean Architecture principles, which ensure a clear separ
 - **presentation**: Contains UI-related classes including ViewModels and Jetpack Compose UI components.
 - **di**: Contains Dagger Hilt modules for dependency injection.
 
+## APK
+[Apk-release](https://drive.google.com/file/d/1lvVMXCihXlCRE5n7hxXcAPg2HTFYGrek/view?usp=sharing)
+
 ## Screenshots
 
 <img src="https://github.com/rockyhappy/Kotlineary/assets/115190222/802da320-b173-4220-99a7-50ae513b267e" alt="News App Screenshot 1" width="150" >
