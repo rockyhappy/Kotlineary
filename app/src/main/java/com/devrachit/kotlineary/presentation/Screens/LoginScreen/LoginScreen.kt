@@ -42,7 +42,7 @@ fun LoginScreen(navController: NavController) {
     val activity = LocalContext.current as? Activity
     LaunchedEffect(key1=true) {
         activity?.window?.let { window ->
-            WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
+            WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
         }
     }
     Scaffold (

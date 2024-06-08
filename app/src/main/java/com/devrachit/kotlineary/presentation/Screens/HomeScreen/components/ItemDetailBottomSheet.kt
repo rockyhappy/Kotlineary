@@ -1,5 +1,6 @@
 package com.devrachit.kotlineary.presentation.Screens.HomeScreen.components
 
+import android.text.Html
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -389,7 +390,7 @@ fun ItemDetailBottomSheet(
                                     color= Color.Black
                                 )
                                 Text(
-                                    text = itemDetails?.instructions ?: "",
+                                    text =   Html.fromHtml(itemDetails?.instructions ?: "", Html.FROM_HTML_MODE_LEGACY).toString(),
                                     modifier = Modifier.padding(top = 10.dp, start = 16.dp,end=16.dp,bottom=10.dp),
                                     color = DarkGreyColor
                                 )
@@ -428,7 +429,7 @@ fun ItemDetailBottomSheet(
                                     color= Color.Black
                                 )
                                 Text(
-                                    text = itemDetails?.summary ?: "",
+                                    text = Html.fromHtml(itemDetails?.summary ?: "", Html.FROM_HTML_MODE_LEGACY).toString(),
                                     modifier = Modifier.padding(top = 20.dp, start = 16.dp, end = 16.dp,bottom=20.dp),
                                     color = DarkGreyColor
                                 )

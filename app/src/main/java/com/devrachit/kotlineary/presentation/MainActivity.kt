@@ -13,7 +13,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 
 import androidx.navigation.compose.rememberNavController
@@ -27,14 +30,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
+        window.statusBarColor= Color.White.toArgb()
+        window.navigationBarColor = Color.White.toArgb()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             KotlinearyTheme {
                 val navController = rememberNavController()
-                Scaffold(modifier = Modifier.fillMaxSize()) {
                     NavHost(navHostController = navController)
-                    Log.d("MainActivity", it.toString())
-                }
             }
         }
     }
