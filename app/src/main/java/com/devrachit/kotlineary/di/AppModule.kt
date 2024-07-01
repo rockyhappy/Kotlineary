@@ -8,6 +8,8 @@ import com.devrachit.kotlineary.data.repository.SpoonacularRepositoryImpl
 import com.devrachit.kotlineary.domain.repository.SpoonacularRepository
 import com.devrachit.kotlineary.room.AppDatabase
 import com.devrachit.kotlineary.room.FavoriteRecipeDao
+import com.devrachit.mode_data.data.remote.spoonacularApi2
+import com.devrachit.mode_data.data.repository.SpoonacularRepository2
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,7 +35,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesSpoontacularRepository(api: spoonacularApi): SpoonacularRepository {
+    fun providesSpoontacularRepository(api: spoonacularApi2): SpoonacularRepository2 {
         return SpoonacularRepositoryImpl(api)
     }
     @Provides

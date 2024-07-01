@@ -12,10 +12,10 @@ import javax.inject.Singleton
 @Singleton
 class AllRecipe @Inject constructor() {
 
-    private val _recipes = MutableStateFlow<Resource<AllRecipeDto>?>(null)
+    private val _recipes = MutableStateFlow<Resource<com.devrachit.mode_data.data.remote.dto.AllRecipeDto>?>(null)
     val recipes = _recipes.asStateFlow()
 
-    fun setRecipes(recipe: Resource<AllRecipeDto>){
+    fun setRecipes(recipe: Resource<com.devrachit.mode_data.data.remote.dto.AllRecipeDto>){
         _recipes.value = recipe
     }
     fun getRecipes() = recipes.value

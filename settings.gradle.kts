@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Kotlineary"
 include(":app")
- 
+include(":mode:mode_data")
+include(":mode:mode_domain")
+include(":mode:mode_presentation")

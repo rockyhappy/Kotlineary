@@ -1,0 +1,14 @@
+
+dkotlin:S1128"Remove this unused import.(ºÂ½ùÿÿÿÿ8¤¶˜İƒ2J$e0f28a87-01d0-4515-b3e8-31dcc091a247
+dkotlin:S1128"Remove this unused import.(¥ÄŒµûÿÿÿÿ8¥¶˜İƒ2J$33c7c00c-4989-4b86-b715-3ac27db471b9
+_kotlin:S1128"Remove this unused import.(¦Âšš8¥¶˜İƒ2J$366af3bc-7db9-49c0-b860-dfebaac0d7f2
+dkotlin:S1128"Remove this unused import.(”’ªºûÿÿÿÿ8¥¶˜İƒ2J$58662c7f-4936-4019-b546-ce1a8a1fd9d8
+_kotlin:S1128"Remove this unused import.(ı…ÑÉ8¥¶˜İƒ2J$516c96ef-ce46-4bb3-9992-01e39557f32a
+dkotlin:S1128"Remove this unused import.(£ØØùÿÿÿÿ8¥¶˜İƒ2J$ae68d47b-6e87-4fa7-bce2-2af93f1d06cd
+dkotlin:S1128"Remove this unused import.(é¢êáüÿÿÿÿ8¥¶˜İƒ2J$6eb9e7d8-02da-41f6-beb0-8e89a001b849
+_kotlin:S1128"Remove this unused import.(™òæÜ8¥¶˜İƒ2J$851990eb-d329-4e8d-805b-f3e381bc3997
+_kotlin:S1128"Remove this unused import.(›®ÌÒ8¥¶˜İƒ2J$b851b210-436e-49fa-addf-4badd916d891
+dkotlin:S11280"Remove this unused import.(ïŒ‚æüÿÿÿÿ8¥¶˜İƒ2J$c7d28014-30b1-4e7f-8ce0-ae05dec3e730
+©kotlin:S1192h"fDefine a constant instead of duplicating this literal "Back button to close the bottom sheet" 4 times.(èóÀÏÿÿÿÿÿJ$63a1695b-7ffb-4c20-b1c6-4044cafa06dd
+®kotlin:S1192€"oDefine a constant instead of duplicating this literal "Favorite button to add the recipe to favorites" 4 times.(—ÀßæJ$416b9dd3-c7ee-4bd1-aad1-cb0b557e0e25
+kotlin:S3776B"RRefactor this method to reduce its Cognitive Complexity from 35 to the 15 allowed.(Úşõ†J$129e26c6-6535-4863-8957-aa2c7ed05a38

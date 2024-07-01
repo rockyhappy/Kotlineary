@@ -1,0 +1,21 @@
+
+Zkotlin:S1481[";Remove this unused "onItemBottomSheetClick" local variable.(¿âçÓ8¬Òáğ†2
+qkotlin:S1481U",Remove this unused "focused" local variable.(²©ºğ8ÿ´˜İƒ2J$54ba6c53-32c7-450c-8a0e-c2747ff1731e
+|kotlin:S1481R"9Remove this unused "isSearchFieldFocused" local variable.(»®ƒïûÿÿÿÿJ$bf4e6d59-2b9e-4b90-b40a-28beccc7476f
+dkotlin:S1128"Remove this unused import.(Õ„´°ùÿÿÿÿ8ƒµ˜İƒ2J$6ce66ae4-ebfb-486f-bbea-56fd8aa2fd3a
+_kotlin:S1128"Remove this unused import.(° Á‹8ƒµ˜İƒ2J$cef68b07-fb03-4c20-9ad9-f8e9f38e0bd8
+dkotlin:S1128"Remove this unused import.(û¢ËÓùÿÿÿÿ8ƒµ˜İƒ2J$c06759ac-1a81-4804-8aac-235f77c412df
+_kotlin:S1128"Remove this unused import.(ÔÍÀï8ƒµ˜İƒ2J$a2867697-a06d-479f-bbed-6c9dc0667b25
+dkotlin:S1128"Remove this unused import.(í›‚­ıÿÿÿÿ8ƒµ˜İƒ2J$93d5e1d2-d6c3-4196-a320-6f16f0b72e24
+dkotlin:S1128"Remove this unused import.(¤­‹üÿÿÿÿ8ƒµ˜İƒ2J$f372adb8-7004-494b-b393-14b4437376e7
+^kotlin:S1128"Remove this unused import.(Ëî>8ƒµ˜İƒ2J$fbfe84a9-86e9-4080-9a68-744d2f618ff6
+_kotlin:S1128"Remove this unused import.(çœÏ•8ƒµ˜İƒ2J$db91e4d4-29a5-4208-89e0-7a80da4606e2
+_kotlin:S1128"Remove this unused import.(Äåì¾8ƒµ˜İƒ2J$5463621d-3a33-4993-af10-4d5e961b6a2b
+_kotlin:S1128"Remove this unused import.(™×ÔÉ8ƒµ˜İƒ2J$f6574233-9946-4f69-a72d-eb705f66a0be
+dkotlin:S1128"Remove this unused import.(îÆ§ıÿÿÿÿ8ƒµ˜İƒ2J$fb517946-2b04-411d-a2ca-6a6ccd213e86
+_kotlin:S1128"Remove this unused import.(™éç8ƒµ˜İƒ2J$1f7c3861-ec5f-4ceb-8c89-b88218be30d7
+dkotlin:S1128"Remove this unused import.(‘ôÏ şÿÿÿÿ8ƒµ˜İƒ2J$e1b90199-2cea-4703-b270-c832fd0ef9d5
+dkotlin:S1128)"Remove this unused import.(Û’Öôüÿÿÿÿ8ƒµ˜İƒ2J$c285632d-b8c5-4ac4-af96-4d392ba60845
+dkotlin:S1128+"Remove this unused import.(È¶Èøÿÿÿÿ8ƒµ˜İƒ2J$325b750a-283d-458c-81b0-cde34afa0218
+dkotlin:S1128."Remove this unused import.(•Ë¥ªûÿÿÿÿ8ƒµ˜İƒ2J$169f7883-e227-49a7-9046-860f61d492d9
+kotlin:S3776H"RRefactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.(ĞßØJ$7c552758-0a2f-4bbf-a94c-a83b641c1674
