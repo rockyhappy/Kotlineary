@@ -6,5 +6,7 @@ plugins {
     id ("com.google.dagger.hilt.android") version "2.50" apply false
     id("androidx.room") version "2.6.1" apply false
 
+
+
     alias(libs.plugins.android.library) apply false
 }
